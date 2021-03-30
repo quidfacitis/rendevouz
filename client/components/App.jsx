@@ -1,7 +1,10 @@
 import React from 'react';
+import Calendar from './Calendar.jsx';
 
 const App = () => (
-  <div>This is where it all starts!</div>
+  <div>
+    <Calendar />
+  </div>
 );
 
 export default App;

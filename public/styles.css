@@ -1,0 +1,10 @@
+.day-of-the-week-container,
+.day-container {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+/* MAKE THIS DYNAMIC */
+/* .first-day {
+  grid-column: 2;
+} */

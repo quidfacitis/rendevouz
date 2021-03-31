@@ -19,6 +19,8 @@
   },
   "homepage": "https://github.com/quidfacitis/rendevouz#readme",
   "dependencies": {
+    "@iconify-icons/mdi": "^1.1.13",
+    "@iconify/react": "^1.1.4",
     "express": "^4.17.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"

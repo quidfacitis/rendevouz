@@ -1,4 +1,7 @@
 import React, { Fragment, Component } from 'react';
+import { Icon } from "@iconify/react";
+import chevronLeft from '@iconify-icons/mdi/chevron-left';
+import chevronRight from '@iconify-icons/mdi/chevron-right';
 import Day from './Day.jsx';
 
 class Calendar extends Component {
@@ -83,28 +86,30 @@ class Calendar extends Component {
     if (selectedMonth !== null) {
       for (let i = 0; i < daysPerMonth[selectedMonth]; i += 1) {
         days.push((
-          <div className={i === 0 ? "first-day": ""} style={{gridColumn: i === 0 && startingCalendarDate.getDay() + 1}}>{i + 1}</div>
+          <Day date={i + 1} key={i} startingCalendarDate={startingCalendarDate} />
         ));
       }
     }
 
     return (
       <Fragment>
-        <button onClick={this.previousMonthHandler}>Back</button>
           <div className="calendar-container">
-            <div className="month-container">{monthNames[selectedMonth]} {selectedYear}</div>
+            <div className="month-container">
+              <span className="left-calendar-arrow" onClick={this.previousMonthHandler}><Icon icon={chevronLeft}/></span>
+              {monthNames[selectedMonth]} {selectedYear}
+              <span className="right-calendar-arrow" onClick={this.nextMonthHandler}><Icon icon={chevronRight} /></span>
+            </div>
             <div className="day-of-the-week-container">
-              <div>Su</div>
-              <div>Mo</div>
-              <div>Tu</div>
-              <div>We</div>
-              <div>Th</div>
-              <div>Fr</div>
-              <div>Sa</div>
+              <div>Sun</div>
+              <div>Mon</div>
+              <div>Tue</div>
+              <div>Wed</div>
+              <div>Thu</div>
+              <div>Fri</div>
+              <div>Sat</div>
             </div>
             {selectedMonth !== null && <div className="day-container">{days}</div>}
           </div>
-        <button onClick={this.nextMonthHandler}>Forward</button>
       </Fragment>
     );
   }

@@ -2,9 +2,61 @@
 .day-container {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
+  width: 60%;
+  margin: auto;
 }
 
-/* MAKE THIS DYNAMIC */
-/* .first-day {
-  grid-column: 2;
+.month-container {
+  position: relative;
+  width: 300px;
+  margin: auto;
+  text-align: center;
+  padding-bottom: 0.5em;
+  font-size: 2em;
+}
+
+.left-calendar-arrow {
+  position: absolute;
+  top: 3px;
+  left: 0;
+  cursor: pointer;
+}
+
+.right-calendar-arrow {
+  position: absolute;
+  top: 3px;
+  right: 0;
+  cursor: pointer;
+}
+
+.day-of-the-week-container {
+  text-align: center;
+  padding-bottom: 1em;
+  font-size: 1.2em;
+}
+
+
+/* .day-container {
+  border-top: 1px solid black;
+  border-left: 1px solid black;
 } */
+
+/* .day-container > div {
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+} */
+
+.individual-day-container {
+  box-sizing: content-box;
+  border-top: 2px solid black;
+  border-left: 2px solid black;
+  box-shadow: inset -1px -1px 0 1px;
+  margin-top: -2px;
+  margin-left: -2px;
+  width: 100%;
+  min-height: 100px;
+}
+
+.individual-day-date {
+  margin-left: 3px;
+}

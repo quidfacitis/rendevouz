@@ -3,6 +3,7 @@ import { Icon } from "@iconify/react";
 import chevronLeft from '@iconify-icons/mdi/chevron-left';
 import chevronRight from '@iconify-icons/mdi/chevron-right';
 import Day from './Day.jsx';
+import AddAvailability from './AddAvailability.jsx';
 
 class Calendar extends Component {
   constructor(props) {
@@ -13,10 +14,16 @@ class Calendar extends Component {
       currentDay: null,
       selectedYear: null,
       selectedMonth: null,
-      selectedDay: null
+      selectedDay: null,
+      addAvailabilityOpen: false,
+      setTimes: {},
+      recurringTimes: {}
     };
     this.previousMonthHandler = this.previousMonthHandler.bind(this);
     this.nextMonthHandler = this.nextMonthHandler.bind(this);
+    this.openAddAvailability = this.openAddAvailability.bind(this);
+    this.closeAddAvailability = this.closeAddAvailability.bind(this);
+    this.submitAvailabilityHandler = this.submitAvailabilityHandler.bind(this);
   }
   componentDidMount() {
     const date = new Date();
@@ -58,8 +65,55 @@ class Calendar extends Component {
     }
   }
 
+  openAddAvailability(selectedYear, selectedMonth, selectedDay) {
+    this.setState({
+      addAvailabilityOpen: true,
+      selectedYear,
+      selectedMonth,
+      selectedDay
+    });
+  }
+
+  closeAddAvailability() {
+    this.setState({
+      addAvailabilityOpen: false
+    });
+  }
+
+  submitAvailabilityHandler(e, formData, recurring, weekDayCode) {
+    e.preventDefault();
+    const { selectedYear, selectedMonth, selectedDay, setTimes, recurringTimes } = this.state;
+    console.log('formData: ', formData);
+    console.log(`DATE: ${selectedYear}-${selectedMonth}-${selectedDay}`);
+    const date = `${selectedYear}-${selectedMonth}-${selectedDay}`;
+    const startDate = new Date(selectedYear, selectedMonth, selectedDay);
+
+    // add formData to selectedDay in state --> pass that information down to each day --> display the information for a given day if it has information to display
+    if (!recurring) {
+      setTimes[date] = formData;
+    } else {
+      recurringTimes[weekDayCode] = {
+        startDate,
+        data: formData
+      };
+    }
+
+    // if an event is recurring
+      // put the event next to the weekday that it occurs on
+      // include the start date and the event
+      // pass the information down to each day
+        // if that given day matches a weekday that has an event AND the date is greater than or equal to the start date, add that event to that day
+
+    this.setState({
+      addAvailabilityOpen: false,
+      setTimes: setTimes
+    }, () => {
+      console.log('SET TIMES: ', this.state.setTimes)
+    });
+  }
+
   render() {
-    const { selectedYear, selectedMonth, selectedDay } = this.state;
+    const { selectedYear, selectedMonth, selectedDay, addAvailabilityOpen, setTimes, recurringTimes } = this.state;
 
     const daysPerMonth = {
       0: 31,
@@ -80,19 +134,36 @@ class Calendar extends Component {
 
     // get day of week of first day of the month
     const startingCalendarDate = new Date(selectedYear, selectedMonth, 1);
-
     // generate number of days for current month
     let days = [];
     if (selectedMonth !== null) {
       for (let i = 0; i < daysPerMonth[selectedMonth]; i += 1) {
         days.push((
-          <Day date={i + 1} key={i} startingCalendarDate={startingCalendarDate} />
+          <Day
+            key={i}
+            openAddAvailability={this.openAddAvailability}
+            day={i + 1}
+            selectedYear={selectedYear}
+            selectedMonth={selectedMonth}
+            startingCalendarDate={startingCalendarDate}
+            setTimes={setTimes}
+            recurringTimes={recurringTimes}
+          />
         ));
       }
     }
 
     return (
       <Fragment>
+          {addAvailabilityOpen &&
+            <AddAvailability
+              closeAddAvailability={this.closeAddAvailability}
+              submitAvailabilityHandler={this.submitAvailabilityHandler}
+              selectedYear={selectedYear}
+              selectedMonth={selectedMonth}
+              selectedDay={selectedDay}
+            />
+          }
           <div className="calendar-container">
             <div className="month-container">
               <span className="left-calendar-arrow" onClick={this.previousMonthHandler}><Icon icon={chevronLeft}/></span>

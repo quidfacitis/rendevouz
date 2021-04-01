@@ -83,8 +83,6 @@ class Calendar extends Component {
   submitAvailabilityHandler(e, formData, recurring, weekDayCode) {
     e.preventDefault();
     const { selectedYear, selectedMonth, selectedDay, setTimes, recurringTimes } = this.state;
-    console.log('formData: ', formData);
-    console.log(`DATE: ${selectedYear}-${selectedMonth}-${selectedDay}`);
     const date = `${selectedYear}-${selectedMonth}-${selectedDay}`;
     const startDate = new Date(selectedYear, selectedMonth, selectedDay);
 
@@ -98,17 +96,9 @@ class Calendar extends Component {
       };
     }
 
-    // if an event is recurring
-      // put the event next to the weekday that it occurs on
-      // include the start date and the event
-      // pass the information down to each day
-        // if that given day matches a weekday that has an event AND the date is greater than or equal to the start date, add that event to that day
-
     this.setState({
       addAvailabilityOpen: false,
       setTimes: setTimes
-    }, () => {
-      console.log('SET TIMES: ', this.state.setTimes)
     });
   }
 

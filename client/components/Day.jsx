@@ -4,22 +4,24 @@ const Day = ({ openAddAvailability, day, startingCalendarDate, selectedYear, sel
   const date = `${selectedYear}-${selectedMonth}-${day}`;
   const hours = [];
   if (setTimes[date]) {
-    hours.push((
-      <div>{setTimes[date]}</div>
-    ));
+    setTimes[date].forEach((time) => {
+      hours.push((
+        <div className="day-time-slot">{time[0]}-{time[1]}</div>
+      ));
+    })
   }
 
   const thisDate = new Date(selectedYear, selectedMonth, day);
   const weekDayCode = thisDate.getDay();
   if (recurringTimes[weekDayCode]) {
     if (recurringTimes[weekDayCode].startDate <= thisDate) {
-      hours.push((
-        <div>{recurringTimes[weekDayCode].data}</div>
-      ));
+      recurringTimes[weekDayCode].data.forEach((time) => {
+        hours.push((
+          <div className="day-time-slot">{time[0]}-{time[1]}</div>
+        ));
+      });
     }
   }
-
-
 
   return (
     <div onClick={() => openAddAvailability(selectedYear, selectedMonth, day)} className="individual-day-container" style={{gridColumn: day === 1 && startingCalendarDate.getDay() + 1}}>
